@@ -9,5 +9,7 @@ class UserViewSet(ModelViewSet):
 
     def get_queryset(self):
         query = self.request.GET.get('search')
+        if query is None:
+            return get_user_model().objects.all()
         lookup = Q(first_name=query) | Q(last_name=query)
         return get_user_model().objects.filter(lookup)
